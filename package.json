@@ -3,9 +3,21 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "start": "node api/index.js",
+    "dev": "tsx --watch --tsconfig ./compiler.tsconfig.json ./compiler/index.ts",
+    "build": "cross-env NODE_ENV=production tsx --tsconfig ./compiler.tsconfig.json ./compiler/index.ts"
+  },
   "dependencies": {
     "express": "^4.21.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@swc/core": "^1.11.24",
+    "@types/express": "^5.0.1",
+    "del": "^8.0.0",
+    "swc-loader": "^0.2.6",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.8",
+    "webpack-node-externals": "^3.0.0"
+  }
 }

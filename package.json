@@ -1,0 +1,11 @@
+{
+  "name": "vercel-express",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {}
+}

@@ -18,6 +18,9 @@ importers:
       '@types/express':
         specifier: ^5.0.1
         version: 5.0.1
+      '@types/webpack-node-externals':
+        specifier: ^3.0.4
+        version: 3.0.4(@swc/core@1.11.24)
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -348,6 +351,9 @@ packages:
 
   '@types/serve-static@1.15.7':
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
+
+  '@types/webpack-node-externals@3.0.4':
+    resolution: {integrity: sha512-8Z3/edqxE3RRlOJwKSgOFxLZRt/i1qFlv/Bi308ZUKo9jh8oGngd9r8GR0ZNKW5AEJq8QNQE3b17CwghTjQ0Uw==}
 
   '@webassemblyjs/ast@1.14.1':
     resolution: {integrity: sha512-nuBEDgQfm1ccRp/8bCQrx1frohyufl4JlbMMZ4P1wpeOfDhF6FQkxZJ1b/e+PLwr6X1Nhw6OLme5usuBWYBvuQ==}
@@ -1241,6 +1247,16 @@ snapshots:
       '@types/http-errors': 2.0.4
       '@types/node': 22.15.17
       '@types/send': 0.17.4
+
+  '@types/webpack-node-externals@3.0.4(@swc/core@1.11.24)':
+    dependencies:
+      '@types/node': 22.15.17
+      webpack: 5.99.8(@swc/core@1.11.24)
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+      - webpack-cli
 
   '@webassemblyjs/ast@1.14.1':
     dependencies:

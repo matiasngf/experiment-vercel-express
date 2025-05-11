@@ -26,12 +26,12 @@ function copyIndexFile() {
 
   createDir('api')
 
-  const sourcePath = path.join(dirName, 'src/index.ts')
-  const targetPath = path.join(dirName, 'api/index.ts')
+  const sourcePath = path.join(dirName, 'src/index.js')
+  const targetPath = path.join(dirName, 'api/index.js')
 
   try {
     fs.copyFileSync(sourcePath, targetPath)
-    console.log('Successfully copied index.ts to api directory')
+    console.log('Successfully copied index.js to api directory')
   } catch (error) {
     console.error('Error copying file:', error)
   }

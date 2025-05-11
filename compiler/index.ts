@@ -1,41 +1,64 @@
-import fs from 'fs'
+import webpack from "webpack"
+import { baseConfig } from "./webpack-config"
+import { mode, outputPath } from "./constants"
+import { spawn } from 'child_process'
 import path from 'path'
 
-const dirName = path.resolve(process.cwd())
+async function compile() {
 
-const logAll = () => {
-  const files = fs.readdirSync(dirName)
-  console.log('Files and folders in directory:')
-  files.forEach(file => {
-    const stats = fs.statSync(path.join(dirName, file))
-    const type = stats.isDirectory() ? '📁' : '-'
-    console.log(`${type} ${file}`)
+  let scriptProcess: any
+
+  // Handle process termination signals
+  process.on('SIGINT', handleProcessTermination)
+  process.on('SIGTERM', handleProcessTermination)
+  process.on('exit', handleProcessTermination)
+
+  function handleProcessTermination() {
+    if (scriptProcess) {
+      scriptProcess.kill()
+      scriptProcess = null
+    }
+  }
+
+  // Run webpack for both configurations
+  const compiler = webpack(baseConfig, (err, stats) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+
+    if (stats?.hasErrors()) {
+      console.error(stats.toString({
+        colors: true,
+        chunks: false
+      }))
+      return
+    }
+
+    if (stats?.endTime && stats?.startTime) {
+      console.log(`Compiled in ${stats.endTime - stats.startTime}ms`);
+    }
+
+    if (mode === 'production') {
+      // Close the compiler when done
+      compiler.close((closeErr) => {
+        if (closeErr) {
+          console.error(closeErr)
+        }
+      })
+    } else {
+      // In development mode, run the compiled script directly
+      const scriptPath = path.join(outputPath, 'index.js')
+
+      // Kill previous process if it exists
+      handleProcessTermination()
+
+      // Start new process
+      scriptProcess = spawn('node', [scriptPath], { stdio: 'inherit' })
+    }
   })
 }
 
-const createDir = (dir: string) => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true })
-    console.log(`Created directory: ${dir}`)
-  }
-}
 
-function copyIndexFile() {
 
-  logAll()
-
-  createDir('api')
-
-  const sourcePath = path.join(dirName, 'src/index.js')
-  const targetPath = path.join(dirName, 'api/index.js')
-
-  try {
-    fs.copyFileSync(sourcePath, targetPath)
-    console.log('Successfully copied index.js to api directory')
-  } catch (error) {
-    console.error('Error copying file:', error)
-  }
-  logAll()
-}
-
-copyIndexFile()
+compile()

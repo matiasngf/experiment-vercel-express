@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node api/index.js",
     "dev": "tsx --watch --tsconfig ./compiler.tsconfig.json ./compiler/index.ts",
-    "build": "cross-env NODE_ENV=production tsx --tsconfig ./compiler.tsconfig.json ./compiler/index.ts"
+    "build": "cross-env NODE_ENV=production tsx --tsconfig ./compiler.tsconfig.json ./compiler/index.ts",
+    "deploy:preview": "vercel deploy --prebuilt",
+    "build:prod": "vercel build --prod",
+    "deploy:prod": "vercel deploy --prod --prebuilt"
   },
   "dependencies": {
     "express": "^4.21.2"
